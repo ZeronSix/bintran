@@ -1,0 +1,8 @@
+START:
+    JMP LOL
+    POOT:
+    HALT
+    LOL:
+    PUSH -1
+    POP
+    JMP POOT

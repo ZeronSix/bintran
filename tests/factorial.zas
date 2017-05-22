@@ -1,0 +1,24 @@
+; FACTORIAL
+START:
+        INPUT
+        LOAD 0
+IF:
+        LOAD 0
+        PUSH 1
+        SUB
+        BEZ
+        JMC END
+        LOAD 0
+        PUSH 1
+        SUB
+        MUL
+        LOAD 0
+        PUSH 1
+        SUB
+        STORE 0
+        JMP IF
+END:
+        OUTPUT
+        HALT
+
+

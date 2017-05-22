@@ -1,0 +1,132 @@
+     1                                  START:
+     2                                  ; HALT
+     3 00000000 C3                              ret
+     4                                  
+     5                                  ; PUSH
+     6 00000001 6878563412                      push 0x12345678
+     7                                  
+     8                                  ; POP
+     9 00000006 58                              pop rax
+    10                                  
+    11                                  ; ADD
+    12                                  jmp_test3:
+    13 00000007 58                              pop rax  ; load to rax from stack
+    14 00000008 4158                            pop r8   ; load to rax
+    15                                  
+    16 0000000A 4C89C8                          mov rax, r9
+    17 0000000D 4C89F0                          mov rax, r14
+    18 00000010 4D89F0                          mov r8, r14
+    19 00000013 4D89C8                          mov r8, r9
+    20                                  
+    21 00000016 4C01C0                          add rax, r8
+    22                                  
+    23 00000019 50                              push rax
+    24                                  
+    25 0000001A 4989C1                          mov r9, rax
+    26 0000001D 4989C6                          mov r14, rax
+    27                                  
+    28                                  
+    29                                  ; SUB
+    30 00000020 4158                            pop r8
+    31 00000022 58                              pop rax
+    32 00000023 4C29C0                          sub rax, r8
+    33 00000026 4929C0                          sub r8, rax
+    34 00000029 4989C0                          mov r8, rax
+    35 0000002C 50                              push rax
+    36                                  
+    37                                  ; MUL
+    38 0000002D 58                              pop rax
+    39 0000002E 4158                            pop r8
+    40 00000030 490FAFC0                        imul rax, r8
+    41 00000034 50                              push rax
+    42                                  
+    43                                  ; DIV
+    44                                  jmp_test:
+    45 00000035 4158                            pop r8
+    46 00000037 58                              pop rax
+    47 00000038 49F7F8                          idiv r8
+    48                                  jmp_test2:
+    49 0000003B 50                              push rax
+    50                                  
+    51                                  ; JMP
+    52 0000003C EBF7                            jmp jmp_test
+    53 0000003E EBFB                            jmp jmp_test2
+    54 00000040 EBC5                            jmp jmp_test3
+    55 00000042 EB07                            jmp kek
+    56                                  
+    57                                  ; JMC
+    58 00000044 58                              pop rax
+    59 00000045 4883F800                        cmp rax, 0
+    60 00000049 75B5                            jne START
+    61                                  kek:
+    62 0000004B 75E8                            jnz jmp_test
+    63                                  
+    64                                  ; GZ
+    65 0000004D 58                              pop rax
+    66 0000004E 41B801000000                    mov r8, 1
+    67 00000054 4883F800                        cmp rax, 0
+    68 00000058 B800000000                      mov rax, 0
+    69 0000005D 490F4FC0                        cmovg rax, r8
+    70 00000061 50                              push rax
+    71                                  
+    72                                  ; GEZ
+    73 00000062 58                              pop rax
+    74 00000063 41B801000000                    mov r8, 1
+    75 00000069 4883F800                        cmp rax, 0
+    76 0000006D B800000000                      mov rax, 0
+    77 00000072 490F4DC0                        cmovge rax, r8
+    78 00000076 50                              push rax
+    79                                  
+    80                                  ; BZ
+    81 00000077 58                              pop rax
+    82 00000078 41B801000000                    mov r8, 1
+    83 0000007E 4883F800                        cmp rax, 0
+    84 00000082 B800000000                      mov rax, 0
+    85 00000087 490F4CC0                        cmovl rax, r8
+    86 0000008B 50                              push rax
+    87                                  
+    88                                  ; BEZ
+    89 0000008C 58                              pop rax
+    90 0000008D 41B801000000                    mov r8, 1
+    91 00000093 4883F800                        cmp rax, 0
+    92 00000097 B800000000                      mov rax, 0
+    93 0000009C 490F4EC0                        cmovle rax, r8
+    94 000000A0 50                              push rax
+    95                                  
+    96                                  ; STORE
+    97 000000A1 4831C0                          xor rax, rax
+    98 000000A4 58                              pop rax
+    99 000000A5 49898278563412                  mov [r10+0x12345678], rax
+   100 000000AC 49898288A9CBED                  mov [r10-0x12345678], rax
+   101                                  
+   102                                  ; LOAD
+   103 000000B3 4831C0                          xor rax, rax
+   104 000000B6 418B8278563412                  mov eax, [r10+0x12345678]
+   105 000000BD 50                              push rax
+   106                                  
+   107                                  ; HEADER
+   108 000000BE 4989E2                          mov r10, rsp
+   109 000000C1 4983EA08                        sub r10, 8
+   110 000000C5 4989FB                          mov r11, rdi
+   111 000000C8 4989F4                          mov r12, rsi
+   112 000000CB 4989E5                          mov r13, rsp
+   113                                  
+   114                                  ; NEQZ and EQZ
+   115 000000CE 490F44C0                        cmove rax, r8
+   116 000000D2 490F45C0                        cmovne rax, r8
+   117                                  
+   118                                  ; INPUT
+   119 000000D6 4831C0                          xor rax, rax
+   120 000000D9 4152                            push r10
+   121 000000DB 4153                            push r11
+   122 000000DD 41FFD3                          call r11
+   123 000000E0 415B                            pop r11
+   124 000000E2 415A                            pop r10
+   125 000000E4 50                              push rax
+   126                                  
+   127                                  ; OUTPUT
+   128 000000E5 5F                              pop rdi
+   129 000000E6 41FFD4                          call r12
+   130                                  
+   131                                  ; FOOTER
+   132 000000E9 4C89EC                          mov rsp, r13

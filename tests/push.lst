@@ -1,0 +1,8 @@
+     1                                  section .text
+     2                                          global _start
+     3                                  start:
+     4 00000000 6878563412                      push    12345678h
+     5 00000005 4883C404                        add     rsp, 4
+     6                                  
+     7 00000009 8B8424FF563412                  mov eax, [rsp+123456FFh]
+     8 00000010 50                              push rax

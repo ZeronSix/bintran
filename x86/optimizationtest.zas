@@ -1,0 +1,12 @@
+; START
+    PUSH 10
+    PUSH 6
+    PUSH 4
+    PUSH 5
+    PUSH 2
+    ADD
+    ADD
+    MUL
+    MUL
+    OUTPUT
+

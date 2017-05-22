@@ -1,0 +1,31 @@
+; FACTORIAL
+START:
+        INPUT
+        LOAD 0
+        LOAD 0
+        NEQZ
+        JMC IF
+        PUSH 1
+        STORE 1
+        JMP END
+IF:
+        LOAD 0
+        PUSH 1
+        SUB
+        BEZ
+        JMC END
+        LOAD 0
+        PUSH 1
+        SUB
+        MUL
+        LOAD 0
+        PUSH 1
+        SUB
+        STORE 0
+        JMP IF
+END:
+        STORE 0
+        OUTPUT
+        HALT
+
+
